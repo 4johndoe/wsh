@@ -30,16 +30,19 @@ class Router
 
 		// if exist -> get controller/action
 			if (preg_match("~^$uriPattern$~", $uri)) {
+
+				$internalRoute = preg_replace("~$uriPattern~", $path, $uri);
 				
 				// resolve which controller and action
-				$segments = explode('/', $path);
+				$segments = explode('/', $internalRoute);
 
 				$controllerName = array_shift($segments).'Controller';
 				$controllerName = ucfirst($controllerName);
 
 				$actionName = 'action'.ucfirst(array_shift($segments));
 
-				
+				$parameters = $segments;
+
 				// include controller file
 				$controllerFile = ROOT . '/controllers/' . $controllerName . '.php';
 
